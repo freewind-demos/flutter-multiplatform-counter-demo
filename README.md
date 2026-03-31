@@ -31,6 +31,34 @@ flutter run -d android
 flutter run -d chrome
 ```
 
+## 构建发布版
+
+```bash
+# 构建 macOS
+flutter build macos
+
+# 构建 iOS
+flutter build ios
+
+# 构建 Android ( APK )
+flutter build apk
+
+# 构建 Android ( App Bundle )
+flutter build appbundle
+
+# 构建 Windows
+flutter build windows
+
+# 构建 Linux
+flutter build linux
+
+# 构建 Web
+flutter build web
+
+# 构建所有平台
+flutter build macos && flutter build ios && flutter build apk && flutter build appbundle && flutter build windows && flutter build linux && flutter build web
+```
+
 ## 代码讲解
 
 ### 状态管理
