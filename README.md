@@ -1,120 +1,45 @@
-# Flutter Multiplatform Counter Demo
+# Flutter 跨平台计数器
 
 ## 简介
 
-跨平台计数器演示，点击按钮数字加一。
+一个带 **AppBar** 与加号按钮的计数器：点击后数字加一。工程为标准 Flutter 多平台模板，同一套 Dart 可跑在移动端、桌面与 Web，用来验证「一单仓多目标」是否配置正确。
 
-## 支持平台
+## 快速开始
 
-- iOS
-- Android
-- macOS
-- Windows
-- Linux
-- Web
+### 环境要求
 
-## 运行
+Flutter SDK（stable 建议）。根据你要运行的目标，装好 Xcode、Android SDK 或 Chrome 等；用 `flutter doctor` 自检。
 
-```bash
-cd flutter-multiplatform-counter-demo
+### 运行
 
-# macOS
-flutter run -d macos
-
-# iOS Simulator
-flutter run -d iphone
-
-# Android
-flutter run -d android
-
-# Web
-flutter run -d chrome
-```
-
-## 构建发布版
+在本 README 所在目录执行：
 
 ```bash
-# 构建 macOS
-flutter build macos
-
-# 构建 iOS
-flutter build ios
-
-# 构建 Android ( APK )
-flutter build apk
-
-# 构建 Android ( App Bundle )
-flutter build appbundle
-
-# 构建 Windows
-flutter build windows
-
-# 构建 Linux
-flutter build linux
-
-# 构建 Web
-flutter build web
-
-# 构建所有平台
-flutter build macos && flutter build ios && flutter build apk && flutter build appbundle && flutter build windows && flutter build linux && flutter build web
+flutter pub get
+flutter run
 ```
 
-## 代码讲解
+用 `flutter devices` 查看可用设备后，可加 `-d` 指定，例如 `flutter run -d macos`、`flutter run -d chrome`、`flutter run -d android`。
 
-### 状态管理
+## 概念讲解
 
-```dart
-class _CounterPageState extends State<CounterPage> {
-  int _count = 0;
+### 第一部分：`StatefulWidget` 与 `setState`
 
-  void _increment() {
-    setState(() {
-      _count++;
-    });
-  }
-}
-```
+计数值存在 `State` 子类字段里，按钮回调里 `_increment` 调用 `setState`，框架重新执行 `build`，中心大字更新。
 
-- 使用 `StatefulWidget` 管理状态
-- `setState()` 触发 UI 重建
+### 第二部分：跨平台交付物
 
-### 界面布局
+同一 `lib/main.dart` 由各端嵌入器接管；`android/`、`ios/`、`web/` 等目录存放宿主与打包配置。发布时用 `flutter build <target>` 生成对应产物。
 
-```dart
-Scaffold(
-  appBar: AppBar(title: const Text('Counter')),
-  body: Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text('$_count', style: ...),
-        ElevatedButton.icon(
-          onPressed: _increment,
-          icon: const Icon(Icons.add),
-          label: const Text('Add'),
-        ),
-      ],
-    ),
-  ),
-)
-```
+## 完整示例
+
+界面结构见 `lib/main.dart`：`Scaffold` + `Column` + `ElevatedButton.icon`。
+
+## 注意事项
+
+- 首次切某平台可能下载依赖与工具链，用时较长属正常。
+- Web 打包请关注资源体积与浏览器兼容性；移动端关注签名与权限。
 
 ## 完整讲解（中文）
 
-### Flutter 跨平台原理
-
-Flutter 使用自研的 **Skia** 图形引擎直接绘制 UI，不依赖原生控件。通过 **Dart** 语言编写一次代码，编译到各平台原生应用或 Web。
-
-### 代码结构
-
-- `main.dart` - 应用入口和主页面
-- `pubspec.yaml` - 项目配置和依赖
-
-### Widget 简介
-
-Flutter 中所有 UI 都是 Widget：
-- `Scaffold` - 页面脚手架，提供 AppBar 和 body
-- `Center` - 将子组件居中
-- `Column` - 垂直排列子组件
-- `ElevatedButton` - 凸起按钮
-- `Text` - 文本显示
+这个 Demo 刻意保持「**无聊但扎实**」：没有花哨架构，只有 `setState`。无聊的好处是：你只要把它跑在安卓机、浏览器、macOS 窗口里都点得动，就说明工具链与工程骨架已经对齐。真正的产品再往上叠状态管理、依赖注入、CI 即可；若骨架歪了，叠再高也会塌。
